@@ -1,0 +1,118 @@
+package io.swagger.api;
+
+import io.swagger.api.*;
+import io.swagger.model.*;
+
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+
+import io.swagger.model.Account;
+import io.swagger.model.Applicant;
+import io.swagger.model.CatalogAttribute;
+import io.swagger.model.CatalogCustoms;
+import io.swagger.model.CatalogExternalApplicantType;
+import io.swagger.model.CatalogFormType;
+import io.swagger.model.CatalogGroup;
+import io.swagger.model.CatalogLevelFour;
+import io.swagger.model.CatalogLevelOne;
+import io.swagger.model.CatalogLevelThree;
+import io.swagger.model.CatalogLevelTwo;
+import io.swagger.model.CatalogPosition;
+import io.swagger.model.CatalogProfile;
+import io.swagger.model.CatalogProfileExternal;
+import io.swagger.model.CatalogRequestType;
+import io.swagger.model.CatalogResource;
+import io.swagger.model.CatalogSystem;
+import io.swagger.model.CatalogSystemExternal;
+import io.swagger.model.CatalogTypeAFPA;
+import io.swagger.model.Email;
+import io.swagger.model.EventLog;
+import io.swagger.model.Flow;
+import io.swagger.model.Form;
+import io.swagger.model.Login;
+import io.swagger.model.Other;
+import io.swagger.model.Person;
+import io.swagger.model.Profile;
+import io.swagger.model.Request;
+import io.swagger.model.Resource;
+import io.swagger.model.System;
+
+import java.util.List;
+
+import java.io.InputStream;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import sv.gob.mh.oim.pojo.UsuarioDGIIResponse;
+
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2022-02-21T16:30:37.574Z")
+public interface DgaApiService {
+      public Response cAT0001(SecurityContext securityContext);
+      public Response cAT0002(SecurityContext securityContext);
+      public Response cAT0003(SecurityContext securityContext);
+      public Response cAT0004(SecurityContext securityContext);
+      public Response cAT0005(SecurityContext securityContext);
+      public Response cAT0006(SecurityContext securityContext);
+      public Response cAT0007(SecurityContext securityContext);
+      public Response cAT0008(SecurityContext securityContext);
+      public Response cAT0009(String levelOneId, SecurityContext securityContext);
+      public Response cAT0010(String levelOneId, String levelTwoId, SecurityContext securityContext);
+      public Response cAT0011(String levelOneId, String levelTwoId, String levelThreeId, SecurityContext securityContext);
+      public Response cAT0012(SecurityContext securityContext);
+      public Response cAT0013(String role, SecurityContext securityContext);
+      public Response cAT0014(String role, SecurityContext securityContext);
+      public Response cAT0015(String role, SecurityContext securityContext);
+      public Response cAT0016(String system, SecurityContext securityContext);
+      public Response cAT0018(SecurityContext securityContext);
+      public Response cRUD0007(CatalogProfileExternal body, SecurityContext securityContext);
+      public Response cRUD0008(CatalogProfileExternal body, SecurityContext securityContext);
+      public Response cRUD0009(CatalogSystemExternal body, SecurityContext securityContext);
+      public Response cRUD0010(CatalogSystemExternal body, SecurityContext securityContext);
+      public Response cRUD0011(String role, CatalogProfile body, SecurityContext securityContext);
+      public Response cRUD0012(String role, CatalogProfile body, SecurityContext securityContext);
+      public Response cRUD0013(String role, CatalogResource body, SecurityContext securityContext);
+      public Response cRUD0014(String role, CatalogResource body, SecurityContext securityContext);
+      public Response cRUD0015(String role, CatalogSystem body, SecurityContext securityContext);
+      public Response cRUD0016(String role, CatalogSystem body, SecurityContext securityContext);
+      public Response cRUD0017(String system, CatalogGroup body, SecurityContext securityContext);
+      public Response cRUD0018(String system, CatalogGroup body, SecurityContext securityContext);
+      public Response cat0019(String document, SecurityContext securityContext);
+      public Response dGADASHFIN001(String role, String uid, SecurityContext securityContext);
+      public Response dGADASHFIN002(String role, String uid, SecurityContext securityContext);
+      public Response dGADASHFIN003(String id, SecurityContext securityContext);
+      public Response dGAOTHER001(String requestId, SecurityContext securityContext);
+      public Response dGAOTHER002(String requestId, Other body, SecurityContext securityContext);
+      public Response dGAOTHER003(String requestId, Other body, SecurityContext securityContext);
+      public Response dGAOTHER005(String requestId, Other body, SecurityContext securityContext);
+      public Response dGAPROF004(String requestId, Other body, SecurityContext securityContext);
+      public Response dGAPROFI001(String requestId, SecurityContext securityContext);
+      public Response dGAPROFI002(String requestId, Profile body, SecurityContext securityContext);
+      public Response dGAPROFI003(String requestId, Profile body, SecurityContext securityContext);
+      public Response dGAPROFI004(String requestId, Profile body, SecurityContext securityContext);
+      public Response dGAPROFI005(String requestId, Profile body, SecurityContext securityContext);
+      public Response dGARESO001(String requestId, SecurityContext securityContext);
+      public Response dGARESO002(String requestId, Resource body, SecurityContext securityContext);
+      public Response dGARESO003(String requestId, Resource body, SecurityContext securityContext);
+      public Response dGASYST001(String requestId, SecurityContext securityContext);
+      public Response dGASYST002(String requestId, System body, SecurityContext securityContext);
+      public Response dGASYST003(String requestId, System body, SecurityContext securityContext);
+      public Response fLOW0001(Flow body, SecurityContext securityContext);
+      public Response fLOW0002(Flow body, SecurityContext securityContext);
+      public Response fLOW0003(Request body, SecurityContext securityContext);
+      public Response fLOW0004(String requestId, String processId, String roleId, SecurityContext securityContext);
+      public Response fORM0001(Form body, SecurityContext securityContext);
+      public Response fORM0002(Form body, SecurityContext securityContext);
+      public Response fORM0003(String formId, Request body, SecurityContext securityContext);
+      public Response fORM0004(String formId, Request body, SecurityContext securityContext);
+      public Response iDE001(String requestId, SecurityContext securityContext);
+      public Response iDE002(String requestId, SecurityContext securityContext);
+      public Response iDE003(String requestId, Account body, SecurityContext securityContext);
+      public Response iDE004(String requestId, Account body, SecurityContext securityContext);
+      public Response iDE005(String requestId, String accountId, SecurityContext securityContext);
+      public Response lOG001(String formId, SecurityContext securityContext);
+      public Response lOGIN0001(Login body, SecurityContext securityContext);
+      public Response rEQ0001(String formType, String requestType, String document, SecurityContext securityContext);
+      public Response rEQ0002(String formType, String document, SecurityContext securityContext);
+      public Response uTIL0002(String requestId, SecurityContext securityContext);
+      public Response uTIL001(Email body, SecurityContext securityContext);
+}
