@@ -1,0 +1,2393 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Identidad",
+    "version" : "1.0.0",
+    "title" : "API Formulario DGA - Identidad",
+    "contact" : {
+      "name" : "Iliana Tobar",
+      "email" : "iliana.tobar@mh.gob.sv"
+    }
+  },
+  "tags" : [ {
+    "name" : "dashboard",
+    "description" : ""
+  }, {
+    "name" : "form",
+    "description" : ""
+  }, {
+    "name" : "request",
+    "description" : ""
+  } ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/dga/form" : {
+      "post" : {
+        "tags" : [ "form" ],
+        "summary" : "Crea un nuevo formulario (Solo la tabla principal)",
+        "operationId" : "FORM-0001",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Objeto a guardar sin id",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Form"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el mismo objeto pero con ID",
+            "schema" : {
+              "$ref" : "#/definitions/Form"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "form" ],
+        "summary" : "Actualizar formulario (Solo la tabla principal)",
+        "operationId" : "FORM-0002",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Form"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el objeto como quedo",
+            "schema" : {
+              "$ref" : "#/definitions/Form"
+            }
+          }
+        }
+      }
+    },
+    "/dga/dashboard/form/load/{id}" : {
+      "get" : {
+        "tags" : [ "dashboard" ],
+        "summary" : "Carga toda la información del formulario",
+        "operationId" : "DGA-DASH-FIN-003",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga toda la información del formulario",
+            "schema" : {
+              "$ref" : "#/definitions/Form"
+            }
+          },
+          "403" : {
+            "description" : "El formulario no se puede cargar"
+          },
+          "404" : {
+            "description" : "No encontrado"
+          }
+        }
+      }
+    },
+    "/dga/form/request/applicant/{formType}/{document}" : {
+      "get" : {
+        "tags" : [ "request" ],
+        "summary" : "Carga la información de RUC del usuario y sus datos en OIM",
+        "operationId" : "REQ-0002",
+        "parameters" : [ {
+          "name" : "formType",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "document",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga la información de RUC del usuario y sus datos en OIM",
+            "schema" : {
+              "$ref" : "#/definitions/Applicant"
+            }
+          },
+          "404" : {
+            "description" : "No se encontro el usuario",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "406" : {
+            "description" : "El usuario ya esta creado",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "412" : {
+            "description" : "No tiene los datos creados de forma correcta:\nNo esta creado en OIM\nNo esta creado en AFPA (Externos)"
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/customs" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de Aduanas",
+        "operationId" : "CAT-0003",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de Aduanas",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogCustoms"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/level/attribute" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de Atributos para internos",
+        "operationId" : "CAT-0007",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de Atributos para internos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogAttribute"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/level/one" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de Nivel 1",
+        "operationId" : "CAT-0008",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Catalogo de Nivel 1",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogLevelOne"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/level/two/{levelOneId}" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de Nivel 2",
+        "operationId" : "CAT-0009",
+        "parameters" : [ {
+          "name" : "levelOneId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Catalogo de Nivel 2",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogLevelOne"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/level/three/{levelOneId}/{levelTwoId}" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de Nivel 3",
+        "operationId" : "CAT-0010",
+        "parameters" : [ {
+          "name" : "levelOneId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "levelTwoId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Catalogo de Nivel 3",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogLevelThree"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/level/four/{levelOneId}/{levelTwoId}/{levelThreeId}" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de Nivel 4",
+        "operationId" : "CAT-0011",
+        "parameters" : [ {
+          "name" : "levelOneId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "levelTwoId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "levelThreeId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Catalogo de Nivel 4",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogLevelFour"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/position" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de posiciones",
+        "operationId" : "CAT-0012",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de posiciones",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogPosition"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/type" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de tipos de tipos de solicitud",
+        "operationId" : "CAT-0018",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de tipos de solicitud",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogRequestType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/{formId}" : {
+      "post" : {
+        "tags" : [ "form" ],
+        "summary" : "Crea una nueva Solcitud (Solo la tabla principal)",
+        "operationId" : "FORM-0004",
+        "parameters" : [ {
+          "name" : "formId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Objeto a guardar sin id",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Request"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el mismo objeto pero con ID",
+            "schema" : {
+              "$ref" : "#/definitions/Request"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "form" ],
+        "summary" : "Actualizar Solicitud (Solo la tabla principal)",
+        "operationId" : "FORM-0003",
+        "parameters" : [ {
+          "name" : "formId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Request"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el objeto como quedo",
+            "schema" : {
+              "$ref" : "#/definitions/Request"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/other/{requestId}" : {
+      "get" : {
+        "tags" : [ "request" ],
+        "summary" : "Obtener todos los Otros definidos en las tablas (Todos menos en estado a borrar)",
+        "operationId" : "DGA-OTHER-001",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Listado de Objetos de Otras solicitudes",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Other"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "request" ],
+        "summary" : "Crear una nueva solicitud de Otro",
+        "operationId" : "DGA-OTHER-002",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Guardar un nuevo objeto profile",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Other"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Se confirma como almacenado",
+            "schema" : {
+              "$ref" : "#/definitions/Other"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "request" ],
+        "summary" : "Marca como para borrar la solicitud",
+        "operationId" : "DGA-OTHER-003",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Other"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Respuesta correcta de marcado para borrar",
+            "schema" : {
+              "$ref" : "#/definitions/Other"
+            }
+          }
+        }
+      },
+      "options" : {
+        "tags" : [ "request" ],
+        "summary" : "Realizar integracion para enviar hacia tercero",
+        "operationId" : "DGA-PROF-004",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Other"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Realizar integracion para enviar hacia tercero",
+            "schema" : {
+              "$ref" : "#/definitions/Other"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "request" ],
+        "summary" : "Marcar como finalizado",
+        "operationId" : "DGA-OTHER-005",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Other"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Marcar como finalizado",
+            "schema" : {
+              "$ref" : "#/definitions/Other"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/profile/{requestId}" : {
+      "get" : {
+        "tags" : [ "request" ],
+        "summary" : "Obtener todos los profiles definidos en las tablas (Todos menos en estado a borrar)",
+        "operationId" : "DGA-PROFI-001",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Listado de Objetos de Perfiles",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Profile"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "request" ],
+        "summary" : "Crear una nueva solicitud de Profile",
+        "operationId" : "DGA-PROFI-002",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Guardar un nuevo objeto profile",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Profile"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Se confirma como almacenado",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "request" ],
+        "summary" : "Marca como para borrar la solicitud",
+        "operationId" : "DGA-PROFI-003",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Profile"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Respuesta correcta de marcado para borrar",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      },
+      "options" : {
+        "tags" : [ "request" ],
+        "summary" : "Realizar integracion para enviar hacia tercero",
+        "operationId" : "DGA-PROFI-004",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Profile"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Realizar integracion para enviar hacia tercero",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "request" ],
+        "summary" : "Marcar como finalizado",
+        "operationId" : "DGA-PROFI-005",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Profile"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Marcar como finalizado",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/resource/{requestId}" : {
+      "get" : {
+        "tags" : [ "request" ],
+        "summary" : "Obtener todos los resources definidos en las tablas (Todos menos en estado a borrar)",
+        "operationId" : "DGA-RESO-001",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Listado de Objetos de Resources",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Resource"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "request" ],
+        "summary" : "Crear una nueva solicitud de resource",
+        "operationId" : "DGA-RESO-002",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Guardar un nuevo objeto resource",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Resource"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Se confirma como almacenado",
+            "schema" : {
+              "$ref" : "#/definitions/Resource"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "request" ],
+        "summary" : "Marca como para borrar la solicitud",
+        "operationId" : "DGA-RESO-003",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Resource"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Respuesta correcta de marcado para borrar",
+            "schema" : {
+              "$ref" : "#/definitions/Resource"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/system/{requestId}" : {
+      "get" : {
+        "tags" : [ "request" ],
+        "summary" : "Obtener todos los sistemas definidos en las tablas (Todos menos en estado a borrar)",
+        "operationId" : "DGA-SYST-001",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Listado de Objetos de sistemas",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/System"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "request" ],
+        "summary" : "Crear una nueva solicitud de sistema",
+        "operationId" : "DGA-SYST-002",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Guardar un nuevo objeto sistema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/System"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Se confirma como almacenado",
+            "schema" : {
+              "$ref" : "#/definitions/System"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "request" ],
+        "summary" : "Marca como para borrar la solicitud",
+        "operationId" : "DGA-SYST-003",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/System"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Respuesta correcta de marcado para borrar",
+            "schema" : {
+              "$ref" : "#/definitions/System"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/ext/profile" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de tipos de perfiles externos",
+        "operationId" : "CAT-0005",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de perfiles externos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogProfileExternal"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Guardar el  tipo de perfiles externos",
+        "operationId" : "CRUD-0007",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogProfileExternal"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Guardar el tipo de perfiles externos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogProfileExternal"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Actualizar el tipo de perfiles externos",
+        "operationId" : "CRUD-0008",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogProfileExternal"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Actualizar el tipo de perfiles externos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogProfileExternal"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/ext/system" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de tipos de sistemas externos",
+        "operationId" : "CAT-0006",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de sistemas externos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogSystemExternal"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Guardar el  tipo de sistemas externos",
+        "operationId" : "CRUD-0009",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogSystemExternal"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Guardar el tipo de sistemas externos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogSystemExternal"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Actualizar el tipo de sistemas externos",
+        "operationId" : "CRUD-0010",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogSystemExternal"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Actualizar el tipo de sistemas externos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogSystemExternal"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/afpa/type" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de AFPA",
+        "operationId" : "CAT-0002",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de AFPA",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogTypeAFPA"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/list/type" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de tipos de solicitud (Interna y Externa)",
+        "operationId" : "CAT-0001",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de tipos de formulario",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogFormType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/ext/applicant/type" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de tipos de solicitantes externos",
+        "operationId" : "CAT-0004",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de tipos de solicitantes externos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogExternalApplicantType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/profile/{role}" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de perfiles internos",
+        "operationId" : "CAT-0013",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de perfiles internos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogProfile"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Guardar el  tipo de perfiles internos",
+        "operationId" : "CRUD-0011",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogProfile"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Guardar el tipo de perfiles internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogProfile"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Actualizar el tipo de perfiles internos",
+        "operationId" : "CRUD-0012",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogProfile"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Actualizar el tipo de perfiles internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogProfile"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/resource/{role}" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de recursos internos",
+        "operationId" : "CAT-0014",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de recursos internos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogResource"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Guardar el  tipo de recursos internos",
+        "operationId" : "CRUD-0013",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogResource"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Guardar el tipo de recursos internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogResource"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Actualizar el tipo de recursos internos",
+        "operationId" : "CRUD-0014",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogResource"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Actualizar el tipo de recursos internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogResource"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/system/{role}" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de sistemas internos",
+        "operationId" : "CAT-0015",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de sistemas internos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogSystem"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Guardar el  tipo de sistemas internos",
+        "operationId" : "CRUD-0015",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogSystem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Guardar el tipo de sistemas internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogSystem"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Actualizar el tipo de sistemas internos",
+        "operationId" : "CRUD-0016",
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogSystem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Actualizar el tipo de sistemas internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogSystem"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/list/system/group/{system}" : {
+      "get" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Catalogo de grupos internos",
+        "operationId" : "CAT-0016",
+        "parameters" : [ {
+          "name" : "system",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga catalogo de grupos internos",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CatalogGroup"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Guardar el  tipo de grupos internos",
+        "operationId" : "CRUD-0017",
+        "parameters" : [ {
+          "name" : "system",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogGroup"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Guardar el tipo de grupos internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogGroup"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "catalog" ],
+        "summary" : "Actualizar el tipo de grupos internos",
+        "operationId" : "CRUD-0018",
+        "parameters" : [ {
+          "name" : "system",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CatalogGroup"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Actualizar el tipo de grupos internos",
+            "schema" : {
+              "$ref" : "#/definitions/CatalogGroup"
+            }
+          }
+        }
+      }
+    },
+    "/dga/dashboard/pending/{role}/{uid}" : {
+      "get" : {
+        "tags" : [ "dashboard" ],
+        "summary" : "Obtener todas los formularios pendientes ordenados por fecha de creación descendente",
+        "operationId" : "DGA-DASH-FIN-002",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "uid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Listado de todas los formularios pendientes",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Form"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dga/dashboard/finish/{role}/{uid}" : {
+      "get" : {
+        "tags" : [ "dashboard" ],
+        "summary" : "Obtener todas los formularios finalizados los ultimos 3 meses",
+        "operationId" : "DGA-DASH-FIN-001",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "role",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "uid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Listado de todas los formularios finalizados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Form"
+              }
+            }
+          },
+          "404" : {
+            "description" : "No existen formularios",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "/dga/form/request/user/load/{formType}/{requestType}/{document}" : {
+      "get" : {
+        "tags" : [ "request" ],
+        "summary" : "Carga la información de RUC del usuario y sus datos en OIM",
+        "operationId" : "REQ-0001",
+        "parameters" : [ {
+          "name" : "formType",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "requestType",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "document",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Carga la información de RUC del usuario y sus datos en OIM",
+            "schema" : {
+              "$ref" : "#/definitions/Person"
+            }
+          },
+          "404" : {
+            "description" : "No se encontro el usuario",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "406" : {
+            "description" : "El usuario ya esta creado",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "412" : {
+            "description" : "No tiene los datos creados de forma correcta:\nNo esta creado en OIM\nNo esta creado en AFPA (Externos)"
+          }
+        }
+      }
+    },
+    "/dga/util/email" : {
+      "post" : {
+        "tags" : [ "util" ],
+        "summary" : "Envio de correo electronico",
+        "operationId" : "UTIL-001",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Email"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Se deposito en la cola de API OIM para su envio"
+          }
+        }
+      }
+    },
+    "/dga/flow/email" : {
+      "get" : {
+        "tags" : [ "util" ],
+        "summary" : "Envia el email segun el paso",
+        "operationId" : "UTIL-0002",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Correo enviado exitosamente"
+          }
+        }
+      }
+    },
+    "/dga/flow" : {
+      "get" : {
+        "tags" : [ "flow" ],
+        "summary" : "Obtiene el paso que es el activo",
+        "operationId" : "FLOW-0003",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Objeto a guardar sin id",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Request"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el mismo objeto pero con ID",
+            "schema" : {
+              "$ref" : "#/definitions/Flow"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "flow" ],
+        "summary" : "Crear flujo",
+        "operationId" : "FLOW-0004",
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "processId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "roleId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el siguiente paso",
+            "schema" : {
+              "$ref" : "#/definitions/Flow"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "flow" ],
+        "summary" : "Actualizar Flujo (Aprobar el paso)",
+        "operationId" : "FLOW-0002",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Objeto a guardar sin id",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Flow"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el siguiente paso",
+            "schema" : {
+              "$ref" : "#/definitions/Flow"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "flow" ],
+        "summary" : "Actualizar Flujo (Rechaza el paso)",
+        "operationId" : "FLOW-0001",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Flow"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Devuelve el siguiente paso",
+            "schema" : {
+              "$ref" : "#/definitions/Flow"
+            }
+          }
+        }
+      }
+    },
+    "/dga/flow/login" : {
+      "post" : {
+        "tags" : [ "flow" ],
+        "summary" : "Login para verificar que es el usuario",
+        "operationId" : "LOGIN-0001",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Login"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Login exitoso"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Profile" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "profile" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogProfile"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "custom" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogCustoms"
+        },
+        "endDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "temporal" : {
+          "type" : "boolean",
+          "description" : ""
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "Externo/Interno"
+        }
+      },
+      "description" : ""
+    },
+    "Resource" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "service" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "temporal" : {
+          "type" : "boolean",
+          "description" : ""
+        },
+        "custom" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "endDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "data" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "type" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "System" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "system" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "group" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "temporal" : {
+          "type" : "boolean",
+          "description" : ""
+        },
+        "custom" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "endDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "type" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Other" : {
+      "type" : "object",
+      "properties" : {
+        "platform" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "temporal" : {
+          "type" : "boolean",
+          "description" : ""
+        },
+        "data" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "endDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "helpDesk" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "sendTo" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "type" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Flow" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "comment" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "startDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "endDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "result" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "user" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogCustoms" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogExternalApplicantType" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogProfileExternal" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogSystemExternal" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogAttribute" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogLevelOne" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogLevelTwo" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogLevelThree" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogLevelFour" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogPosition" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogGroup" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "system" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogProfile" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogResource" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogSystem" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogRequestType" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Person" : {
+      "type" : "object",
+      "properties" : {
+        "document" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "mail" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "uid" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "position" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogPosition"
+        },
+        "levelOne" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogLevelOne"
+        },
+        "levelTwo" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogLevelTwo"
+        },
+        "levelThree" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogLevelThree"
+        },
+        "levelFour" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogLevelFour"
+        },
+        "startDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "endDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "attribute" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogAttribute"
+        },
+        "typeAFPA" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogTypeAFPA"
+        },
+        "isAFPA" : {
+          "type" : "boolean",
+          "description" : ""
+        },
+        "resolution" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "codeDeclarant" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "approveAFPA" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "fullName" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "lastName" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "surName" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Request" : {
+      "type" : "object",
+      "required" : [ "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "typeRequest" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogRequestType"
+        },
+        "state" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "createBy" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "createOn" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "approveDate" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "profiles" : {
+          "type" : "array",
+          "description" : "",
+          "items" : {
+            "$ref" : "#/definitions/Profile"
+          }
+        },
+        "resources" : {
+          "type" : "array",
+          "description" : "",
+          "items" : {
+            "$ref" : "#/definitions/Resource"
+          }
+        },
+        "systems" : {
+          "type" : "array",
+          "description" : "",
+          "items" : {
+            "$ref" : "#/definitions/System"
+          }
+        },
+        "others" : {
+          "type" : "array",
+          "description" : "",
+          "items" : {
+            "$ref" : "#/definitions/Other"
+          }
+        },
+        "flow" : {
+          "type" : "array",
+          "description" : "",
+          "items" : {
+            "$ref" : "#/definitions/Flow"
+          }
+        },
+        "person" : {
+          "description" : "",
+          "$ref" : "#/definitions/Person"
+        }
+      },
+      "description" : "Request"
+    },
+    "CatalogFormType" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogApplicationIdentity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "name" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "revokeCode" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "itResourceCode" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "groupTable" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "type" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "codeName" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Applicant" : {
+      "type" : "object",
+      "properties" : {
+        "document" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "position" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogPosition"
+        },
+        "attribute" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogAttribute"
+        },
+        "externalType" : {
+          "description" : "",
+          "$ref" : "#/definitions/CatalogExternalApplicantType"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "externalName" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "externalRepLegal" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "externalCodeDeclarant" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "mail" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "CatalogTypeAFPA" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "value" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Form" : {
+      "type" : "object",
+      "required" : [ "closed", "createdBy", "createdOn", "id", "step" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "DGAF-Sequence"
+        },
+        "createdOn" : {
+          "type" : "string",
+          "description" : "Start date "
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "created by "
+        },
+        "modifiedOn" : {
+          "type" : "string",
+          "description" : "Start date "
+        },
+        "modifiedBy" : {
+          "type" : "string",
+          "description" : "created by "
+        },
+        "closed" : {
+          "type" : "boolean",
+          "description" : "Closed = 1\nOpen = 0"
+        },
+        "step" : {
+          "type" : "string",
+          "description" : "ID Step to follow"
+        },
+        "comment" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "requests" : {
+          "type" : "array",
+          "description" : "",
+          "items" : {
+            "$ref" : "#/definitions/Request"
+          }
+        },
+        "applicant" : {
+          "description" : "",
+          "$ref" : "#/definitions/Applicant"
+        },
+        "applicantViewer" : {
+          "type" : "string",
+          "description" : "Role viewer after finish"
+        },
+        "file1" : {
+          "type" : "string",
+          "description" : "Role viewer after finish"
+        },
+        "file2" : {
+          "type" : "string",
+          "description" : "Role viewer after finish"
+        },
+        "file3" : {
+          "type" : "string",
+          "description" : "Role viewer after finish"
+        },
+        "file4" : {
+          "type" : "string",
+          "description" : "Role viewer after finish"
+        },
+        "file5" : {
+          "type" : "string",
+          "description" : "Role viewer after finish"
+        },
+        "file6" : {
+          "type" : "string",
+          "description" : "Role viewer after finish"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Email" : {
+      "type" : "object",
+      "properties" : {
+        "from" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "to" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "subject" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "message" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    },
+    "Login" : {
+      "type" : "object",
+      "properties" : {
+        "user" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "password" : {
+          "type" : "string",
+          "description" : ""
+        }
+      },
+      "description" : ""
+    }
+  }
+}
